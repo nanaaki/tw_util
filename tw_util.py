@@ -17,13 +17,13 @@ class TwUtil(object):
         while limits['remaining'] != 0:
             tmp_tweets = self.tw.get_user_timeline(**params)
             tweets.extend(tmp_tweets)
-            params['max_id'] = tmp_tweets[params['count']-1 if 'count' in params else 20-1]['id']
+            params['sice_id'] = tmp_tweets[-1]['id']
 
             limits['remaining'] = int(self.tw.get_lastfunction_header('x-rate-limit-remaining'))
 
             if self.NO_LIMIT_MODE and limits['remaining'] == 0:
                 reset = int(self.tw.get_lastfunction_header('x-rate-limit-reset'))
-                print("{0}:wait api reset {0}sec", datetime.datetime.now() ,reset-int(time.time()))
+                print(datetime.datetime.now(), "wait api reset", reset-int(time.time()), "sec")
                 time.sleep(reset-int(time.time()))
             print("{0}tweets, {1}remaining".format(len(tweets), limits['remaining']))
 
@@ -44,9 +44,9 @@ class TwUtil(object):
 
             if self.NO_LIMIT_MODE and limits['remaining'] == 0:
                 reset = int(self.tw.get_lastfunction_header('x-rate-limit-reset'))
-                print("{0}:wait api reset {0}sec", datetime.datetime.now() ,reset-int(time.time()))
+                print(datetime.datetime.now(), "wait api reset", reset-int(time.time()), "sec")
                 time.sleep(reset-int(time.time()))
-            print("{0}tweets, {1}remaining".format(len(follows), limits['remaining']))
+            print("{0}tweets, {1}remaining".format(len(follows_users), limits['remaining']))
 
         return follows_users
 
