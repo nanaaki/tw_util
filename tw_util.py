@@ -25,6 +25,8 @@ class TwUtil(object):
                 reset = int(self.tw.get_lastfunction_header('x-rate-limit-reset'))
                 print(datetime.datetime.now(), "wait api reset", reset-int(time.time()), "sec")
                 time.sleep(reset-int(time.time()))
+                limits = self.get_limits(resources='statuses')
+                limits = limits['resources']['statuses']['/statuses/user_timeline']
             print("{0}tweets, {1}remaining".format(len(tweets), limits['remaining']))
 
         return tweets
@@ -46,6 +48,8 @@ class TwUtil(object):
                 reset = int(self.tw.get_lastfunction_header('x-rate-limit-reset'))
                 print(datetime.datetime.now(), "wait api reset", reset-int(time.time()), "sec")
                 time.sleep(reset-int(time.time()))
+                limits = self.get_limits('friends')
+                limits = limits['resources']['friends']['/friends/list']
             print("{0}tweets, {1}remaining".format(len(follows_users), limits['remaining']))
 
         return follows_users
